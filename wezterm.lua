@@ -132,4 +132,18 @@ table.insert(keys, { key = "-", mods = "CTRL", action = act.DecreaseFontSize })
 
 config.keys = keys
 
+-- Zen mode font size (driven by zen-mode.nvim via ZEN_MODE user var)
+wezterm.on("user-var-changed", function(window, pane, name, value)
+	if name == "ZEN_MODE" then
+		local overrides = window:get_config_overrides() or {}
+		local n = tonumber((value:gsub("%s+", "")))
+		if n and n > 0 then
+			overrides.font_size = config.font_size + n
+		else
+			overrides.font_size = nil
+		end
+		window:set_config_overrides(overrides)
+	end
+end)
+
 return config
