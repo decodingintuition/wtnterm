@@ -49,7 +49,7 @@ wezterm.on("format-tab-title", function(tab)
 	local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
 	local index = tab.tab_index + 1
 	local badge_bg = tab.is_active and colors.tab_bar.active_tab.bg_color or colors.tab_bar.inactive_tab.bg_color
-	local badge_fg = colors.tab_bar.active_tab.fg_color
+	local badge_fg = tab.is_active and colors.tab_bar.active_tab.fg_color or colors.tab_bar.inactive_tab.fg_color
 
 	return {
 		{ Background = { Color = badge_bg } },
