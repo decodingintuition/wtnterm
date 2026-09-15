@@ -1,0 +1,44 @@
+# Reload Config
+bind-key r source-file "~/.config/tmux/tmux.conf"\; \
+  display-message "Tmux config reloaded!"
+
+# Space Prefix + Forwarding
+unbind-key C-b
+set -g prefix C-Space
+unbind-key Space
+
+# Toggle Mouse
+bind m set -s mouse
+
+# Windows
+bind-key c command-prompt -p "Name:" "new-window -n '%%'"
+bind-key n command-prompt -p "Rename:" "rename-window '%%'"
+bind-key w command-prompt -p "Swap with window index:" "swap-window -d -t '%%'"
+
+# Panes Selection
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+
+# Pane Splitting
+bind | split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+
+# Pane Resizing
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+
+# Jump Find
+set -g @jump-key 's'
+
+# Copy / Visual
+setw -g mode-keys vi
+bind-key -T copy-mode-vi v send-keys -X begin-selection \; send-keys -X rectangle-on
+bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+bind-key -T copy-mode-vi i send-keys -X cancel
+bind-key -T copy-mode-vi Escape if-shell -F "#{selection_active}" "send-keys -X clear-selection" "send-keys -X cancel"
+bind-key -T copy-mode-vi C-e send-keys -X scroll-down -N 5
+bind-key -T copy-mode-vi C-y send-keys -X scroll-up -N 5
