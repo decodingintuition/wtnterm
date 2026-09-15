@@ -1,8 +1,9 @@
 ## Installation
 
 ```bash
-git clone https://github.com/decodingintuition/tmux ~/.config/tmux
-~/.config/tmux/setup.sh
+cd /path/to/wtnterm
+./install.sh
+bash tmux/setup.sh
 ```
 
 ## Key Bindings
