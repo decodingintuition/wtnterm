@@ -17,8 +17,8 @@ bind-key w command-prompt -p "Swap with window index:" "swap-window -d -t '%%'"
 
 # Panes Selection
 bind-key h select-pane -L
-bind-key j select-pane -D
-bind-key k select-pane -U
+bind-key j if-shell -F '#{window_zoomed_flag}' 'select-pane -Z -t :.+' 'select-pane -D'
+bind-key k if-shell -F '#{window_zoomed_flag}' 'select-pane -Z -t :.-' 'select-pane -U'
 bind-key l select-pane -R
 
 # Pane Splitting
