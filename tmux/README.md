@@ -2,8 +2,7 @@
 
 ```bash
 cd ~/.config/wtnterm
-./install.sh
-bash tmux/setup.sh
+./tmux/install.sh
 ```
 
 ## Key Bindings
@@ -26,7 +25,8 @@ bash tmux/setup.sh
 |-----|---------|
 | `Ctrl + h/j/k/l` | Navigate Neovim splits and tmux panes |
 | `Ctrl + backslash` | Return to the previous split or pane |
-| `Prefix + h/j/k/l` | Navigate panes (Vim-style) |
+| `Prefix + h/j/k/l` | Navigate panes, with j/k cycling while zoomed |
+| `Prefix + z` | Toggle pane zoom |
 | `Prefix + \|` | Split vertically (preserve path) |
 | `Prefix + -` | Split horizontally (preserve path) |
 | `Prefix + H/J/K/L` | Resize panes (repeatable) |

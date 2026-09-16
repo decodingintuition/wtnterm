@@ -1,30 +1,4 @@
-local parsers = {
-	"astro",
-	"bash",
-	"c",
-	"cpp",
-	"css",
-	"diff",
-	"html",
-	"java",
-	"javascript",
-	"json",
-	"lua",
-	"luadoc",
-	"markdown",
-	"markdown_inline",
-	"python",
-	"query",
-	"regex",
-	"rust",
-	"sql",
-	"toml",
-	"tsx",
-	"typescript",
-	"vim",
-	"vimdoc",
-	"yaml",
-}
+local parsers = require("config.parsers")
 
 return {
 	"nvim-treesitter/nvim-treesitter",
@@ -32,7 +6,9 @@ return {
 	lazy = false,
 	build = ":TSUpdate",
 	config = function()
-		require("nvim-treesitter").install(parsers)
+		if not vim.g.wtnterm_install then
+			require("nvim-treesitter").install(parsers)
+		end
 
 		vim.api.nvim_create_autocmd("FileType", {
 			group = vim.api.nvim_create_augroup("user_treesitter", { clear = true }),
