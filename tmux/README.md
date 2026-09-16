@@ -1,7 +1,7 @@
 ## Installation
 
 ```bash
-cd /path/to/wtnterm
+cd ~/.config/wtnterm
 ./install.sh
 bash tmux/setup.sh
 ```

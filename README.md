@@ -1,6 +1,6 @@
 # wtnterm
 
-WezTerm, tmux, and Neovim configuration in one repository.
+WezTerm, tmux, and Neovim configuration in `~/.config/wtnterm`.
 
 | Directory | Configuration link |
 | --- | --- |
@@ -11,6 +11,7 @@ WezTerm, tmux, and Neovim configuration in one repository.
 ## Installation
 
 ```sh
+cd ~/.config/wtnterm
 ./install.sh
 ```
 
