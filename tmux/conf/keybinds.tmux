@@ -7,9 +7,6 @@ unbind-key C-b
 set -g prefix C-Space
 unbind-key Space
 
-# Toggle Mouse
-bind m set -s mouse
-
 # Windows
 bind-key c command-prompt -p "Name:" "new-window -n '%%'"
 bind-key n command-prompt -p "Rename:" "rename-window '%%'"

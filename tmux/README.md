@@ -5,6 +5,8 @@ cd ~/.config/wtnterm
 ./tmux/install.sh
 ```
 
+Mouse support is enabled by default, including clicking window tabs to switch windows.
+
 ## Key Bindings
 
 **Prefix**: `Ctrl+Space` (Space again to forward prefix)
@@ -14,7 +16,6 @@ cd ~/.config/wtnterm
 |-----|---------|
 | `Prefix + r` | Reload config |
 | `Prefix + I` | Install plugins |
-| `Prefix + m` | Toggle mouse |
 | `Prefix + c` | New window (with name) |
 | `Prefix + n` | Rename window |
 | `Prefix + w` | Swap window |

@@ -13,6 +13,7 @@ set -g history-limit 10000
 set -g escape-time 0
 set -g repeat-time 1000
 set -g focus-events on
+set -g mouse on
 
 # Clipboard
 set -g allow-passthrough on

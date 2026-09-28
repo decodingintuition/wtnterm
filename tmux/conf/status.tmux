@@ -17,7 +17,7 @@ set -g @mode_indicator_sync_mode_style 'bg=#{@red},fg=#{@darker}'
 
 # Status top
 set -g status-left '#{tmux_mode_indicator}'
-set -g status-right '#{?mouse, MOUSE ,}'
+set -g status-right ''
 
 # Status bar base styling
 set -g status-style "bg=#{@darkest},fg=#{@bright_text}"
