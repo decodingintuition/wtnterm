@@ -20,12 +20,12 @@ M.config = {
 			cmd = {
 				"codex",
 				"--dangerously-bypass-approvals-and-sandbox",
-				"--model",
-				"gpt-6-astra",
+			  -- "--model",
+				-- "gpt-6-astra",
 			},
 			resume = { "resume" },
-			reasoning = "high",
-			reasoning_levels = { "low", "medium", "high", "xhigh", "max", "ultra" },
+			reasoning = "default",
+			reasoning_levels = { "default", "low", "medium", "high", "xhigh", "max", "ultra" },
 		},
 	},
 }
@@ -38,7 +38,7 @@ end
 local function command(name, args)
 	local provider = assert(M.config.providers[name], "Unknown AI provider: " .. name)
 	local cmd = vim.deepcopy(provider.cmd)
-	if provider.reasoning then
+	if provider.reasoning and provider.reasoning ~= "default" then
 		vim.list_extend(cmd, { "-c", "model_reasoning_effort=" .. provider.reasoning })
 	end
 	return vim.list_extend(cmd, args or {})

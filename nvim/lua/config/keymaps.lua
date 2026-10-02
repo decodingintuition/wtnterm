@@ -1,5 +1,9 @@
 local map = vim.keymap.set
 
+map("n", "<C-r>", function()
+	require("config.reload").reload()
+end, { desc = "Reload configuration" })
+
 vim.api.nvim_create_user_command("BuildAs", function(opts)
 	require("util.run").create(opts.fargs, opts)
 end, { nargs = "+", range = true, desc = "Export selection/clipboard as executable" })
