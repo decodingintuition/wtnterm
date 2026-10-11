@@ -1,12 +1,13 @@
 # wtnterm
 
-WezTerm, tmux, and Neovim configuration in `~/.config/wtnterm`.
+WezTerm, tmux, Neovim, and Zsh configuration in `~/.config/wtnterm`.
 
 | Directory | Configuration link |
 | --- | --- |
 | `wezterm/` | `~/.config/wezterm` |
 | `tmux/` | `~/.config/tmux` |
 | `nvim/` | `~/.config/nvim` |
+| `zsh/` | `~/.config/zsh` |
 
 ## Installation
 
@@ -29,6 +30,7 @@ The installer uses `pacman -S --needed` with its normal confirmation prompts and
 | WezTerm | Application, configuration, JetBrains Mono and symbol fonts |
 | tmux | Application, clipboard tools, configuration, TPM and declared plugins |
 | Neovim | Application, search tools, compiler, Tree-sitter CLI, Lua and Python runners, plugins and parsers |
+| Zsh | Shell, configuration, source line in `~/.zshrc` |
 
 WezTerm bundles its fonts on macOS, while Arch installs the [separate font packages](https://wezterm.org/install/linux.html).
 The [Tree-sitter CLI](https://formulae.brew.sh/formula/tree-sitter-cli) is installed through the platform package manager.
@@ -41,6 +43,7 @@ Install individual components through their own entry points:
 ./wezterm/install.sh
 ./tmux/install.sh
 ./nvim/install.sh
+./zsh/install.sh
 ```
 
 The top-level installer also accepts a selection, such as `./install.sh tmux nvim`.
@@ -53,6 +56,8 @@ The top-level installer also accepts a selection, such as `./install.sh tmux nvi
 Both options work with every installer.
 Existing configurations are preserved under `~/.local/state/wtnterm/backups/` before replacement.
 Matching links and existing tmux plugin checkouts are skipped on subsequent runs.
+Zsh setup preserves existing `~/.zshrc` settings and adds its source line only when absent.
+The default login shell remains unchanged.
 Neovim restores plugin versions from `lazy-lock.json` and waits for configured parsers to install.
 Running tmux sessions are left intact, with new plugins available after `Prefix + r` or the next launch.
 
@@ -63,11 +68,12 @@ Legacy `~/.wezterm.lua`, `~/.tmux.conf`, or `~/.config/wezterm.lua` files may ta
 ## Maintenance
 
 Edit configuration through either the repository paths or the linked application paths.
-Commit changes from this repository for all three applications.
+Commit changes from this repository for all four applications.
 The original Git histories are included in the imports.
 Downloaded tmux plugins and local Neovim extras remain ignored by Git.
 
 `tmux/setup.sh` remains a shortcut for `tmux/install.sh --skip-packages`.
+`zsh/setup.sh` remains a shortcut for `zsh/install.sh --skip-packages`.
 
 Run installer checks with `bash tests/install.sh`.
 These checks cover backups, repeated linking, argument handling, and mocked package commands.

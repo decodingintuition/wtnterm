@@ -25,6 +25,30 @@ link_config nvim
 [[ $(cd "$config_dir/nvim" && pwd -P) == "$repo_dir/nvim" ]]
 [[ $(find "$backup_root" -type l | wc -l) -eq 1 ]]
 
+mkdir -p "$repo_dir/zsh" "$config_dir/zsh"
+printf 'new shell configuration\n' > "$repo_dir/zsh/zshrc"
+printf 'original shell configuration\n' > "$config_dir/zsh/zshrc"
+link_config zsh
+[[ -L "$config_dir/zsh" ]]
+[[ $(cat "$config_dir/zsh/zshrc") == 'new shell configuration' ]]
+[[ $(cat "$backup_root"/*/zsh/zshrc) == 'original shell configuration' ]]
+
+# Preserve startup settings and handle a missing final newline without duplicating the source.
+startup="$test_dir/zshrc"
+source_line='source ~/.config/zsh/zshrc'
+printf 'export KEEP_EXISTING=yes' > "$startup"
+ensure_source_line "$startup" "$source_line"
+printf 'export KEEP_EXISTING=yes\n%s\n' "$source_line" > "$test_dir/expected-startup"
+diff -u "$test_dir/expected-startup" "$startup"
+ensure_source_line "$startup" "$source_line"
+diff -u "$test_dir/expected-startup" "$startup"
+ensure_source_line "$test_dir/new-zshrc" "$source_line"
+grep -Fqx "$source_line" "$test_dir/new-zshrc"
+mkdir "$test_dir/invalid-startup"
+if (ensure_source_line "$test_dir/invalid-startup" "$source_line") > /dev/null 2>&1; then
+    fail 'A directory startup path should fail'
+fi
+
 # Exercise package choices without invoking package managers.
 skip_packages=false
 uname() { printf 'Darwin\n'; }
@@ -33,10 +57,12 @@ xcode-select() { return 0; }
 install_packages wezterm
 install_packages tmux
 install_packages nvim
+install_packages zsh
 cat > "$test_dir/expected" <<'EXPECTED'
 brew install --cask wezterm
 brew install tmux git
 brew install neovim git ripgrep fd tree-sitter-cli node python lua curl
+brew install zsh
 EXPECTED
 diff -u "$test_dir/expected" "$test_dir/packages"
 xcode-select() { return 1; }
@@ -52,10 +78,12 @@ if [[ -f /etc/arch-release ]]; then
     install_packages wezterm
     install_packages tmux
     install_packages nvim
+    install_packages zsh
     cat > "$test_dir/arch-expected" <<'EXPECTED'
 pacman -S --needed wezterm ttf-jetbrains-mono ttf-nerd-fonts-symbols-mono
 pacman -S --needed tmux git wl-clipboard xclip
 pacman -S --needed neovim git ripgrep fd tree-sitter-cli nodejs base-devel curl tar python lua
+pacman -S --needed zsh
 EXPECTED
     diff -u "$test_dir/arch-expected" "$test_dir/arch-packages"
 fi
@@ -71,7 +99,7 @@ bash "$project_dir/install.sh" --help > /dev/null
 if bash "$project_dir/install.sh" wezterm invalid > /dev/null 2>&1; then
     fail 'Unknown arguments should fail before installation'
 fi
-for component in wezterm tmux nvim; do
+for component in wezterm tmux nvim zsh; do
     bash "$project_dir/$component/install.sh" --help > /dev/null
 done
 printf 'Installer checks passed\n'

@@ -40,6 +40,7 @@ install_packages() {
             case "$1" in
                 wezterm) brew install --cask wezterm ;;
                 tmux) brew install tmux git ;;
+                zsh) brew install zsh ;;
                 nvim) brew install neovim git ripgrep fd tree-sitter-cli node python lua curl ;;
             esac ;;
         Linux)
@@ -49,6 +50,7 @@ install_packages() {
             case "$1" in
                 wezterm) packages=(wezterm ttf-jetbrains-mono ttf-nerd-fonts-symbols-mono) ;;
                 tmux) packages=(tmux git wl-clipboard xclip) ;;
+                zsh) packages=(zsh) ;;
                 nvim) packages=(neovim git ripgrep fd tree-sitter-cli nodejs base-devel curl tar python lua) ;;
             esac
             if [[ $EUID -eq 0 ]]; then
@@ -84,4 +86,19 @@ link_config() {
     fi
     ln -s "$source_dir" "$target"
     printf 'Linked: %s -> %s\n' "$target" "$source_dir"
+}
+
+ensure_source_line() {
+    local target="$1"
+    local source_line="$2"
+    if [[ -f "$target" ]] && grep -Fqx "$source_line" "$target"; then
+        printf 'Already configured: %s\n' "$target"
+        return
+    fi
+    if [[ -e "$target" || -L "$target" ]]; then
+        [[ -f "$target" ]] || fail "Startup path is not a regular file: $target"
+    fi
+    # Keep existing startup settings, including files without a final newline.
+    printf '\n%s\n' "$source_line" >> "$target"
+    printf 'Added configuration source: %s\n' "$target"
 }
