@@ -26,6 +26,7 @@ set -g window-active-style "bg=#{@dark},fg=#{@bright_text}"
 set -g mode-style "bg=#{@pale_gray},fg=#{@bright_text}"
 
 # Window status formats
+set -g window-status-current-style none
 set -g window-status-format "#[fg=#{@bright_text},bg=#{@pale_gray}] #I #[fg=#{@bright_text},bg=#{@darkest}]#W "
 set -g window-status-current-format "#[fg=#{@darker},bg=#{@purple}] #I #[fg=#{@bright_text},bg=#{@darkest}]#W "
 set -g window-status-separator " "
