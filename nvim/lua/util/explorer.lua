@@ -41,7 +41,16 @@ end
 
 function M.clear_filter(picker)
 	picker:norm(function()
-		picker.input:set("", "")
+		if picker.closed then
+			return
+		end
+		if picker.input.win:valid() then
+			picker.input:set("", "")
+		else
+			-- Hidden input windows may not have a buffer yet.
+			picker.input.filter.pattern = ""
+			picker.input.filter.search = ""
+		end
 		picker:find()
 		picker:focus("list")
 		picker:toggle("input", { enable = false })
