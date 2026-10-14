@@ -124,7 +124,28 @@ end
 
 -- Copy/Paste
 table.insert(keys, { key = "c", mods = "CMD", action = act.CopyTo("Clipboard") })
-table.insert(keys, { key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") })
+table.insert(keys, {
+	key = "v",
+	mods = "CMD",
+	action = wezterm.action_callback(function(window, pane)
+		-- Terminal paste carries text; Codex reads clipboard images on Ctrl+V.
+		-- Inspect only clipboard formats, leaving the clipboard itself intact.
+		if wezterm.target_triple:find("darwin", 1, true) then
+			local ok, success, formats = pcall(wezterm.run_child_process, {
+				"/usr/bin/osascript", "-e", "clipboard info",
+			})
+			if ok and success then
+				for _, image_type in ipairs({ "PNGf", "TIFF", "JPEG", "GIFf", "BMP " }) do
+					if formats:find(image_type, 1, true) then
+						window:perform_action(act.SendKey({ key = "v", mods = "CTRL" }), pane)
+						return
+					end
+				end
+			end
+		end
+		window:perform_action(act.PasteFrom("Clipboard"), pane)
+	end),
+})
 
 -- Font Size
 table.insert(keys, { key = "=", mods = "CTRL", action = act.IncreaseFontSize })
